@@ -107,3 +107,28 @@ print("Test to'plamidagi yakuniy aniqlik:", gs.best_estimator_.score(X_te, y_te)
 
 # Izoh: CV (Cross Validation) - faqat train to'plami bilan ishlaydi,
 # u hech qachon test bo'lagidan foydalanmaydi (ma'lumotlar sizib chiqishini oldini olish uchun).
+
+import matplotlib.pyplot as plt
+from sklearn.tree import plot_tree
+
+# 1. Optimal chuqurlikdagi modelni tanlab olamiz
+# Eslatma: juda chuqur daraxtlar (masalan, max_depth > 5) rasmda o'qishga noqulay bo'ladi
+tree_model = gs.best_estimator_   # yoki avval yaratilgan m modeli
+
+# 2. Rasm o'lchamini belgilaymiz (kattaroq qilish matnlar bir-biriga tushib ketmasligini ta'minlaydi)
+plt.figure(figsize=(20, 10))
+
+# 3. Daraxtni chizamiz
+plot_tree(
+    tree_model,
+    feature_names=list(X.columns),          # Ustun nomlari
+    class_names=['Sog‘lom (0)', 'Bemor (1)'], # Target sinflari nomlari
+    filled=True,                            # Tugunlarni sinf bo'yicha ranglash (gini/entropy darajasiga qarab)
+    rounded=True,                           # Burchaklarni yumaloq shaklga keltirish
+    fontsize=10                             # Shrift o'lchami
+)
+
+# 4. Chizmani ko'rsatamiz va fayl sifatida saqlaymiz
+plt.title("Qarorlar daraxti tuzilishi", fontsize=14)
+plt.savefig("decision_tree.png", dpi=300, bbox_inches='tight') # rasmni kompyuterga yuklab olish
+plt.show()
